@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shipwreck.AICloud", "Shipwreck.AICloud\Shipwreck.AICloud.csproj", "{AC1C2B0E-7CF3-4603-8009-025EAA253BBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipwreck.AICloud", "Shipwreck.AICloud\Shipwreck.AICloud.csproj", "{AC1C2B0E-7CF3-4603-8009-025EAA253BBC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shipwreck.AICloud.Example", "Shipwreck.AICloud.Example\Shipwreck.AICloud.Example.csproj", "{A9002217-C059-48FE-AA14-916EA0CB5C6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{2CEC18C7-8AF0-478D-B846-1443685C40EE}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

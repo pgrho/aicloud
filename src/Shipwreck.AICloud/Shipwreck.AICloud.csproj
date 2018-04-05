@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.1.0</Version>
+    <Description>Simple client for AITalk WebAPI v2</Description>
+    <Copyright>Copyright © 2018 shipwreck.jp</Copyright>
+    <Company>shipwreck.jp</Company>
+    <Authors>shipwreck.jp</Authors>
+    <PackageProjectUrl>https://github.com/pgrho/aicloud</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
