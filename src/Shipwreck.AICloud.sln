@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shipwreck.AICloud", "Shipwreck.AICloud\Shipwreck.AICloud.csproj", "{AC1C2B0E-7CF3-4603-8009-025EAA253BBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC1C2B0E-7CF3-4603-8009-025EAA253BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC1C2B0E-7CF3-4603-8009-025EAA253BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC1C2B0E-7CF3-4603-8009-025EAA253BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC1C2B0E-7CF3-4603-8009-025EAA253BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {28159123-4F95-42F4-BC64-6FD977B6BE70}
+	EndGlobalSection
+EndGlobal
