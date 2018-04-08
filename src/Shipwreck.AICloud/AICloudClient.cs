@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -122,6 +123,84 @@ namespace Shipwreck.AICloud
                         throw new AICloudException((ErrorCode)ic, message, detail);
                     }
                 }
+                res.EnsureSuccessStatusCode();
+                throw new AICloudException();
+            }
+            catch (Exception ex) when (!(ex is AICloudException))
+            {
+                throw new AICloudException(null, ex);
+            }
+        }
+
+        public async Task<AICloudCounts> GetCountsAsync()
+        {
+            var ps = new KeyValuePair<string, string>[]
+            {
+                new KeyValuePair<string, string>("username", UserName ?? string.Empty),
+                new KeyValuePair<string, string>("password", Password ?? string.Empty)
+            };
+
+            var req = new HttpRequestMessage(HttpMethod.Post, new Uri(_BaseUrl + "ttscount.php"));
+            req.Content = new FormUrlEncodedContent(ps);
+
+            try
+            {
+                var res = await HttpClient.SendAsync(req).ConfigureAwait(false);
+
+                if (res.IsSuccessStatusCode || res.StatusCode == HttpStatusCode.InternalServerError)
+                {
+                    var xml = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    var d = new XmlDocument();
+                    d.LoadXml(xml);
+
+                    var ces = d.DocumentElement?.ChildNodes.Cast<XmlElement>();
+
+                    if (res.IsSuccessStatusCode)
+                    {
+                        var bds = ces?.FirstOrDefault(e => "base_date".Equals(e.LocalName, StringComparison.InvariantCulture))?.InnerText;
+                        if (!DateTime.TryParse(bds, out var bd))
+                        {
+                            DateTime.TryParseExact(bds, "yyyyMMdd", null, DateTimeStyles.NoCurrentDateDefault, out bd);
+                        }
+
+                        var bcs = ces?.FirstOrDefault(e => "base_count".Equals(e.LocalName, StringComparison.InvariantCulture))?.InnerText;
+                        int.TryParse(bcs, out var bc);
+
+                        var tcs = ces?.FirstOrDefault(e => "total_count".Equals(e.LocalName, StringComparison.InvariantCulture))?.InnerText;
+                        int.TryParse(tcs, out var tc);
+
+                        var ocs = ces?.FirstOrDefault(e => "over_count".Equals(e.LocalName, StringComparison.InvariantCulture))?.InnerText;
+                        int.TryParse(ocs, out var oc);
+
+                        var costs = ces?.FirstOrDefault(e => "over_cost".Equals(e.LocalName, StringComparison.InvariantCulture))?.InnerText;
+                        int.TryParse(costs, out var cost);
+
+                        var ofs = ces?.FirstOrDefault(e => "over_flag".Equals(e.LocalName, StringComparison.InvariantCulture))?.InnerText;
+                        int.TryParse(ofs, out var of);
+
+                        return new AICloudCounts()
+                        {
+                            BaseDate = bd,
+                            BaseCount = bc,
+                            TotalCount = tc,
+                            OverCount = oc,
+                            OverCost = cost,
+                            OverFlag = of != 0
+                        };
+                    }
+                    else
+                    {
+                        var code = ces?.FirstOrDefault(e => "code".Equals(e.LocalName, StringComparison.InvariantCulture))?.InnerText;
+                        if (int.TryParse(code, out var ic))
+                        {
+                            var message = ces?.FirstOrDefault(e => "message".Equals(e.LocalName, StringComparison.InvariantCulture))?.InnerText;
+                            var detail = ces?.FirstOrDefault(e => "detail".Equals(e.LocalName, StringComparison.InvariantCulture))?.InnerText;
+
+                            throw new AICloudException((ErrorCode)ic, message, detail);
+                        }
+                    }
+                }
+
                 res.EnsureSuccessStatusCode();
                 throw new AICloudException();
             }

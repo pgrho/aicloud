@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Description>Simple client for AITalk WebAPI v2</Description>
     <Copyright>Copyright © 2018 shipwreck.jp</Copyright>
     <Company>shipwreck.jp</Company>

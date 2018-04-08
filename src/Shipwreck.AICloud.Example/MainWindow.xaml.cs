@@ -36,24 +36,25 @@ namespace Shipwreck.AICloud.Example
                     c.UserName = userNameTextBox.Text;
                     c.Password = passwordBox.Password;
 
-                    var r = await c.SynthesisSpeechAsync(new SynthesisSpeechParameter()
+                    using (var r = await c.SynthesisSpeechAsync(new SynthesisSpeechParameter()
                     {
                         SpeakerName = speakerNameComboBox.SelectedItem?.ToString(),
                         Extension = Extension.Mp3,
                         Text = textTextBox.Text
-                    });
+                    }))
+                    {
+                        var tmp = Path.GetTempFileName();
+                        File.Delete(tmp);
+                        tmp = Path.ChangeExtension(tmp, ".mp3");
 
-                    var tmp = Path.GetTempFileName();
-                    File.Delete(tmp);
-                    tmp = Path.ChangeExtension(tmp, ".mp3");
+                        await r.SaveAsync(tmp);
 
-                    await r.SaveAsync(tmp);
-
-                    _MediaPlayer = new MediaPlayer();
-                    _MediaPlayer.MediaEnded += _MediaPlayer_MediaEnded;
-                    _MediaPlayer.MediaFailed += _MediaPlayer_MediaEnded;
-                    _MediaPlayer.Open(new Uri(tmp));
-                    _MediaPlayer.Play();
+                        _MediaPlayer = new MediaPlayer();
+                        _MediaPlayer.MediaEnded += _MediaPlayer_MediaEnded;
+                        _MediaPlayer.MediaFailed += _MediaPlayer_MediaEnded;
+                        _MediaPlayer.Open(new Uri(tmp));
+                        _MediaPlayer.Play();
+                    }
                 }
             }
             catch (AICloudException ex) when (ex.RawMessage != null)
@@ -70,5 +71,31 @@ namespace Shipwreck.AICloud.Example
 
         private void _MediaPlayer_MediaEnded(object sender, EventArgs e)
             => _MediaPlayer = null;
+
+        private async void CountsButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var c = new AICloudClient())
+                {
+                    c.UserName = userNameTextBox.Text;
+                    c.Password = passwordBox.Password;
+
+                    var r = await c.GetCountsAsync();
+
+                    MessageBox.Show(this, $"BaseDate: {r.BaseDate:yyyy/MM/dd}\r\nBaseCount: {r.BaseCount:#,0}\r\nTotalCount: {r.TotalCount:#,0}\r\nOverCount: {r.OverCount:#,0}\r\nOverCost: {r.OverCost:#,0}\r\nOverFlag: {r.OverFlag}");
+                }
+            }
+            catch (AICloudException ex) when (ex.RawMessage != null)
+            {
+                MessageBox.Show(this, $"{ex.Code:D}: {ex.RawMessage}\r\n{ex.RawDetail}");
+                _MediaPlayer = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.ToString());
+                _MediaPlayer = null;
+            }
+        }
     }
 }

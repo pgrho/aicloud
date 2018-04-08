@@ -74,7 +74,8 @@
             Grid.Row="13"
             Grid.Column="1"
             VerticalAlignment="Stretch"
-            TextWrapping="Wrap" />
+            TextWrapping="Wrap"
+            AcceptsReturn="True" />
         <StackPanel
             Grid.Row="14"
             Grid.ColumnSpan="2"
@@ -83,6 +84,8 @@
             <Button
                 IsDefault="True"
                 Click="Button_Click">Synthesis</Button>
+            <Button
+                Click="CountsButton_Click">Counts</Button>
         </StackPanel>
     </Grid>
 </Window>
