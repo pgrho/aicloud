@@ -4,6 +4,7 @@
     {
         public string Text { get; set; }
         public string SpeakerName { get; set; }
+        public string SpeakerPassword { get; set; }
 
         public InputType InputType { get; set; }
 

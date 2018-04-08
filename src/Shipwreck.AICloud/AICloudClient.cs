@@ -94,6 +94,11 @@ namespace Shipwreck.AICloud
             AppendWavFormat(ps, parameter);
             AppendStyle(ps, parameter);
 
+            if (parameter.SpeakerPassword != null)
+            {
+                ps.Add(new KeyValuePair<string, string>("speaker_pass", parameter.SpeakerPassword));
+            }
+
             var req = new HttpRequestMessage(HttpMethod.Post, TtsgetUrl);
             req.Content = new FormUrlEncodedContent(ps);
 
@@ -228,7 +233,7 @@ namespace Shipwreck.AICloud
         {
             if (p != 1)
             {
-                ps.Add(new KeyValuePair<string, string>("pitch", Math.Max(min, Math.Min(p, max)).ToString("0.00")));
+                ps.Add(new KeyValuePair<string, string>(name, Math.Max(min, Math.Min(p, max)).ToString("0.00")));
             }
         }
 
